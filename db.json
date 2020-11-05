@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Lorem ipsum",
+      "description": "Pudim pudim pudim"
+    },
+    {
+      "id": 2,
+      "title": "Second post",
+      "description": "I've no idea what to write. Just ignore all these texts."
+    }
+  ]
+}
