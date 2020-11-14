@@ -8,14 +8,14 @@ import CreatePost from '../../components/create';
 function List() {
   const [posts, setPosts] = useState();
   const [postsLoading, setPostsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchPosts = useCallback(async () => {
     try {
       const { data } = await axios.get('http://localhost:1337/posts');
-
       setPosts(data);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      setError(err);
     } finally {
       setPostsLoading(false);
     }
@@ -40,6 +40,7 @@ function List() {
     <Layout
       loading={postsLoading}
       sidebar={<CreatePost onCreate={fetchPosts} />}
+      error={error}
     >
       {posts?.length === 0 ? 'No posts found' : postList}
     </Layout>
