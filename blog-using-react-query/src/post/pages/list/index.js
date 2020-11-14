@@ -6,7 +6,7 @@ import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
 function List() {
-  const { data: posts, isLoading: postsLoading } = useQuery(
+  const { data: posts, isLoading: postsLoading, error } = useQuery(
     'posts',
     async () => {
       const response = await axios.get('http://localhost:1337/posts');
@@ -26,7 +26,7 @@ function List() {
   });
 
   return (
-    <Layout loading={postsLoading} sidebar={<CreatePost />}>
+    <Layout loading={postsLoading} sidebar={<CreatePost />} error={error}>
       {posts?.length === 0 ? 'No posts found' : postList}
     </Layout>
   );
