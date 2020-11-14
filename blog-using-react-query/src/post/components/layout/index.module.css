@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  grid-template-columns: 30% 1px auto;
+  gap: 10px;
+}
+
+.divider {
+  width: 1px;
+  height: 100vh;
+  border: none;
+  border-left: 1px solid #202020;
+}
