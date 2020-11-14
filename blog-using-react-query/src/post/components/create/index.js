@@ -9,11 +9,12 @@ function Create() {
   const [description, setDescription] = useState('');
 
   const [createPost, { error }] = useMutation(
-    () => {
-      return axios.post('http://localhost:1337/posts', {
+    async () => {
+      const response = await axios.post('http://localhost:1337/posts', {
         title,
         description,
       });
+      return response.data;
     },
     {
       onSuccess: () => {
