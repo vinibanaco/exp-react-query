@@ -8,7 +8,7 @@ import CreatePost from '../../components/create';
 function Details() {
   const { id } = useParams();
 
-  const { data: post, isLoading: postLoading } = useQuery(
+  const { data: post, isLoading: postLoading, error } = useQuery(
     ['posts', id],
     async (key, postId) => {
       const response = await axios.get(`http://localhost:1337/posts/${postId}`);
@@ -17,7 +17,7 @@ function Details() {
   );
 
   return (
-    <Layout loading={postLoading} sidebar={<CreatePost />}>
+    <Layout loading={postLoading} sidebar={<CreatePost />} error={error}>
       {post ? (
         <>
           <h1>{post.title}</h1>
