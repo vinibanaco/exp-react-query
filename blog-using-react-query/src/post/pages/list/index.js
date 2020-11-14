@@ -16,12 +16,12 @@ function List() {
 
   const postList = posts?.map((post) => {
     return (
-      <>
+      <div key={post.id}>
         <br />
         <p>
           <Link to={`/posts/${post.id}`}>{post.title}</Link>
         </p>
-      </>
+      </div>
     );
   });
 
