@@ -10,15 +10,15 @@ function Details() {
 
   const [post, setPost] = useState();
   const [postLoading, setPostLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async function fetchData() {
       try {
         const { data } = await axios.get(`http://localhost:1337/posts/${id}`);
-        console.log(data);
         setPost(data);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        setError(err);
       } finally {
         setPostLoading(false);
       }
@@ -26,15 +26,13 @@ function Details() {
   }, [id]);
 
   return (
-    <Layout loading={postLoading} sidebar={<CreatePost />}>
-      {post ? (
+    <Layout loading={postLoading} sidebar={<CreatePost />} error={error}>
+      {post && (
         <>
           <h1>{post.title}</h1>
           <br />
           <p>{post.description}</p>
         </>
-      ) : (
-        'Error 404'
       )}
 
       <br />
