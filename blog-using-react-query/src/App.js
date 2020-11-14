@@ -14,23 +14,21 @@ const queryCache = new QueryCache();
 
 function App() {
   return (
-    <>
-      <ReactQueryCacheProvider queryCache={queryCache}>
-        <Router>
-          <Switch>
-            <Redirect exact from="/" to="/posts" />
-            <Route exact path="/posts">
-              <ListPostsPage />
-            </Route>
-            <Route exact path="/posts/:id">
-              <PostDetailsPage />
-            </Route>
-          </Switch>
-        </Router>
-      </ReactQueryCacheProvider>
+    <ReactQueryCacheProvider queryCache={queryCache}>
+      <Router>
+        <Switch>
+          <Redirect exact from="/" to="/posts" />
+          <Route exact path="/posts">
+            <ListPostsPage />
+          </Route>
+          <Route exact path="/posts/:id">
+            <PostDetailsPage />
+          </Route>
+        </Switch>
+      </Router>
 
       <ReactQueryDevtools />
-    </>
+    </ReactQueryCacheProvider>
   );
 }
 
