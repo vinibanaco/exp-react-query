@@ -8,9 +8,8 @@ function Create() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [createPost] = useMutation(
-    async () => {
-      await axios.post('http://localhost:1337/posts', {
+    () => {
+      return axios.post('http://localhost:1337/posts', {
         title,
         description,
       });
@@ -24,7 +23,7 @@ function Create() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    createPost();
+    await createPost();
   };
 
   return (
