@@ -1,13 +1,23 @@
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
 function Details() {
-  const post = undefined;
+  const { id } = useParams();
+
+  const { data: post, isLoading: postLoading } = useQuery(
+    ['posts', id],
+    async (key, postId) => {
+      const response = await axios.get(`http://localhost:1337/posts/${postId}`);
+      return response.data;
+    },
+  );
 
   return (
-    <Layout sidebar={<CreatePost />}>
+    <Layout loading={postLoading} sidebar={<CreatePost />}>
       {post ? (
         <>
           <h1>{post.title}</h1>
