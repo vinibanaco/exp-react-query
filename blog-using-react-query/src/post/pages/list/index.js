@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePaginatedQuery, useQuery } from 'react-query';
 
-import { countPosts, getAllPosts } from '../../service';
+import { useCountPosts, useGetAllPosts } from '../../service';
 
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
@@ -16,15 +15,13 @@ function List() {
     data: postsCount,
     isLoading: postsCountLoading,
     error: postsCountError,
-  } = useQuery(['posts', 'count'], countPosts);
+  } = useCountPosts();
 
   const {
     resolvedData: posts,
     isLoading: postsLoading,
     error: postsError,
-  } = usePaginatedQuery(['posts', page], () =>
-    getAllPosts({ page, limit: LIST_PAGE_SIZE }),
-  );
+  } = useGetAllPosts({ page, limit: LIST_PAGE_SIZE });
 
   const maxPage = Math.ceil(postsCount / LIST_PAGE_SIZE);
 

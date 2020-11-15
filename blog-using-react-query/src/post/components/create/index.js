@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import { useMutation, useQueryCache } from 'react-query';
 
-import { createPost } from '../../service';
+import { useCreatePost } from '../../service';
 
 function Create() {
-  const cache = useQueryCache();
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -14,18 +11,11 @@ function Create() {
     description,
   };
 
-  const [createPostMutation, { error }] = useMutation(
-    () => createPost(payload),
-    {
-      onSuccess: () => {
-        cache.invalidateQueries('posts');
-      },
-    },
-  );
+  const [createPost, { error }] = useCreatePost(payload);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    await createPostMutation();
+    await createPost();
   };
 
   return (
