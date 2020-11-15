@@ -7,15 +7,16 @@ function Create({ onCreate }) {
   const [description, setDescription] = useState('');
   const [error, setError] = useState(null);
 
+  const payload = {
+    title,
+    description,
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
 
     try {
-      await createPost({
-        title,
-        description,
-      });
-
+      await createPost(payload);
       onCreate && onCreate();
     } catch (err) {
       setError(err);
