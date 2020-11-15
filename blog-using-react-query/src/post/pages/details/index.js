@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import axios from 'axios';
 
+import dataAccess from '../../../cross-cutting/data-access';
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -11,7 +11,7 @@ function Details() {
   const { data: post, isLoading: postLoading, error } = useQuery(
     ['posts', id],
     async (key, postId) => {
-      const response = await axios.get(`http://localhost:1337/posts/${postId}`);
+      const response = await dataAccess.get(`/posts/${postId}`);
       return response.data;
     },
   );

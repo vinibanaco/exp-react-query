@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePaginatedQuery, useQuery } from 'react-query';
-import axios from 'axios';
 
+import dataAccess from '../../../cross-cutting/data-access';
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -16,7 +16,7 @@ function List() {
     isLoading: postsCountLoading,
     error: postsCountError,
   } = useQuery('postsCount', async () => {
-    const response = await axios.get('http://localhost:1337/posts/count');
+    const response = await dataAccess.get('/posts/count');
     return response.data;
   });
 
@@ -25,7 +25,7 @@ function List() {
     isLoading: postsLoading,
     error: postsError,
   } = usePaginatedQuery(['posts', page], async (key, page) => {
-    const response = await axios.get('http://localhost:1337/posts', {
+    const response = await dataAccess.get('/posts', {
       params: {
         _start: (page - 1) * LIST_PAGE_SIZE,
         _limit: LIST_PAGE_SIZE,

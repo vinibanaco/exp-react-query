@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryCache } from 'react-query';
-import axios from 'axios';
+
+import dataAccess from '../../../cross-cutting/data-access';
 
 function Create() {
   const cache = useQueryCache();
@@ -10,7 +11,7 @@ function Create() {
 
   const [createPost, { error }] = useMutation(
     async () => {
-      const response = await axios.post('http://localhost:1337/posts', {
+      const response = await dataAccess.post('/posts', {
         title,
         description,
       });
