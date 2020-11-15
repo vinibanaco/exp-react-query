@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 
+import dataAccess from '../../../cross-cutting/data-access';
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -15,7 +15,7 @@ function Details() {
   useEffect(() => {
     (async function fetchData() {
       try {
-        const { data } = await axios.get(`http://localhost:1337/posts/${id}`);
+        const { data } = await dataAccess.get(`/posts/${id}`);
         setPost(data);
       } catch (err) {
         setError(err);

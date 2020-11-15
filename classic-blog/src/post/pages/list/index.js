@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
+import dataAccess from '../../../cross-cutting/data-access';
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -27,7 +27,7 @@ function List() {
 
   const fetchPostsCount = useCallback(async () => {
     try {
-      const { data } = await axios.get('http://localhost:1337/posts/count');
+      const { data } = await dataAccess.get('/posts/count');
       setPostsCount(data);
     } catch (err) {
       setError(err);
@@ -38,7 +38,7 @@ function List() {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const { data } = await axios.get('http://localhost:1337/posts', {
+      const { data } = await dataAccess.get('/posts', {
         params: {
           _start: (page - 1) * LIST_PAGE_SIZE,
           _limit: LIST_PAGE_SIZE,

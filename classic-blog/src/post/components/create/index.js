@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
+
+import dataAccess from '../../../cross-cutting/data-access';
 
 function Create({ onCreate }) {
   const [title, setTitle] = useState('');
@@ -10,7 +11,7 @@ function Create({ onCreate }) {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:1337/posts', {
+      await dataAccess.post('/posts', {
         title,
         description,
       });
