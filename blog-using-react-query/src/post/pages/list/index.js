@@ -25,6 +25,13 @@ function List() {
 
   const maxPage = Math.ceil(postsCount / LIST_PAGE_SIZE);
 
+  // if the user is in the last page and any page ceases to exist,
+  // caused by the removal of some records, the page will be updated
+  // to the new highest one
+  if (page > maxPage) {
+    setPage(maxPage);
+  }
+
   const prevPage = () => {
     setPage((currentPage) => Math.max(currentPage - 1, 1));
   };
