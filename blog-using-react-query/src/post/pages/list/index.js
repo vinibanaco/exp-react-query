@@ -15,7 +15,7 @@ function List() {
     data: postsCount,
     isLoading: postsCountLoading,
     error: postsCountError,
-  } = useQuery('postsCount', async () => {
+  } = useQuery(['posts', 'count'], async () => {
     const response = await dataAccess.get('/posts/count');
     return response.data;
   });
