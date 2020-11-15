@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import dataAccess from '../../../cross-cutting/data-access';
+import { getOnePost } from '../../service';
+
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -15,7 +16,7 @@ function Details() {
   useEffect(() => {
     (async function fetchData() {
       try {
-        const { data } = await dataAccess.get(`/posts/${id}`);
+        const data = await getOnePost(id);
         setPost(data);
       } catch (err) {
         setError(err);

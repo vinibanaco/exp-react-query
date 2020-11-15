@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import dataAccess from '../../../cross-cutting/data-access';
+import { createPost } from '../../service';
 
 function Create({ onCreate }) {
   const [title, setTitle] = useState('');
@@ -11,7 +11,7 @@ function Create({ onCreate }) {
     e.preventDefault();
 
     try {
-      await dataAccess.post('/posts', {
+      await createPost({
         title,
         description,
       });
