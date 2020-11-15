@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePaginatedQuery, useQuery } from 'react-query';
 
-import dataAccess from '../../../cross-cutting/data-access';
+import { countPosts, getAllPosts } from '../../service';
+
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -15,24 +16,15 @@ function List() {
     data: postsCount,
     isLoading: postsCountLoading,
     error: postsCountError,
-  } = useQuery(['posts', 'count'], async () => {
-    const response = await dataAccess.get('/posts/count');
-    return response.data;
-  });
+  } = useQuery(['posts', 'count'], countPosts);
 
   const {
     resolvedData: posts,
     isLoading: postsLoading,
     error: postsError,
-  } = usePaginatedQuery(['posts', page], async (key, page) => {
-    const response = await dataAccess.get('/posts', {
-      params: {
-        _start: (page - 1) * LIST_PAGE_SIZE,
-        _limit: LIST_PAGE_SIZE,
-      },
-    });
-    return response.data;
-  });
+  } = usePaginatedQuery(['posts', page], () =>
+    getAllPosts({ page, limit: LIST_PAGE_SIZE }),
+  );
 
   const maxPage = Math.ceil(postsCount / LIST_PAGE_SIZE);
 

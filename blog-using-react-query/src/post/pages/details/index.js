@@ -1,7 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-import dataAccess from '../../../cross-cutting/data-access';
+import { getOnePost } from '../../service';
+
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
@@ -10,10 +11,7 @@ function Details() {
 
   const { data: post, isLoading: postLoading, error } = useQuery(
     ['posts', id],
-    async (key, postId) => {
-      const response = await dataAccess.get(`/posts/${postId}`);
-      return response.data;
-    },
+    () => getOnePost(id),
   );
 
   return (

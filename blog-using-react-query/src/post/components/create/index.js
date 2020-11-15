@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryCache } from 'react-query';
 
-import dataAccess from '../../../cross-cutting/data-access';
+import { createPost } from '../../service';
 
 function Create() {
   const cache = useQueryCache();
@@ -9,14 +9,13 @@ function Create() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [createPost, { error }] = useMutation(
-    async () => {
-      const response = await dataAccess.post('/posts', {
-        title,
-        description,
-      });
-      return response.data;
-    },
+  const payload = {
+    title,
+    description,
+  };
+
+  const [createPostMutation, { error }] = useMutation(
+    () => createPost(payload),
     {
       onSuccess: () => {
         cache.invalidateQueries('posts');
@@ -26,7 +25,7 @@ function Create() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    await createPost();
+    await createPostMutation();
   };
 
   return (
