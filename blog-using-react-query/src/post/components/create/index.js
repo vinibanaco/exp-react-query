@@ -11,11 +11,11 @@ function Create() {
     description,
   };
 
-  const [createPost, { error }] = useCreatePost(payload);
+  const [mutateCreatePost, { error }] = useCreatePost(payload);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    await createPost();
+    await mutateCreatePost();
   };
 
   return (
