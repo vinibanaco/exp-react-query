@@ -19,7 +19,7 @@ function List() {
   } = useCountPosts();
 
   const {
-    resolvedData: posts,
+    data: posts,
     isLoading: postsLoading,
     isPreviousData: nextPageLoading,
     error: postsError,

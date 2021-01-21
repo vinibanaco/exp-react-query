@@ -4,17 +4,17 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { QueryCache, ReactQueryCacheProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query-devtools';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import ListPostsPage from './post/pages/list';
 import PostDetailsPage from './post/pages/details';
 
-const queryCache = new QueryCache();
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ReactQueryCacheProvider queryCache={queryCache}>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Switch>
           <Redirect exact from="/" to="/posts" />
@@ -28,7 +28,7 @@ function App() {
       </Router>
 
       <ReactQueryDevtools />
-    </ReactQueryCacheProvider>
+    </QueryClientProvider>
   );
 }
 

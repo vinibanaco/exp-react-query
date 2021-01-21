@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  usePaginatedQuery,
-  useQueryCache,
-  useMutation,
-} from 'react-query';
+import { useQuery, useQueryClient, useMutation } from 'react-query';
 
 import dataAccess from '../cross-cutting/data-access';
 import { POSTS, POST_COUNT } from '../query-keys';
@@ -19,7 +14,9 @@ export const useGetAllPosts = ({ page = 1, limit }) => {
     return data;
   };
 
-  return usePaginatedQuery([POSTS, page], fetchData);
+  return useQuery([POSTS, { page, limit }], fetchData, {
+    keepPreviousData: true,
+  });
 };
 
 export const useGetOnePost = (id) => {
@@ -28,11 +25,11 @@ export const useGetOnePost = (id) => {
     return data;
   };
 
-  return useQuery([POSTS, id], fetchData);
+  return useQuery([POSTS, { id }], fetchData);
 };
 
 export const useCreatePost = (payload) => {
-  const cache = useQueryCache();
+  const client = useQueryClient();
 
   const fetchData = async () => {
     const { data } = await dataAccess.post('/posts', payload);
@@ -41,7 +38,7 @@ export const useCreatePost = (payload) => {
 
   return useMutation(fetchData, {
     onSuccess: () => {
-      cache.invalidateQueries(POSTS);
+      client.invalidateQueries(POSTS);
     },
   });
 };

@@ -11,7 +11,7 @@ function Create() {
     description,
   };
 
-  const [mutateCreatePost, { error }] = useCreatePost(payload);
+  const { mutateAsync: mutateCreatePost, error } = useCreatePost(payload);
 
   const handleClick = async (e) => {
     e.preventDefault();
