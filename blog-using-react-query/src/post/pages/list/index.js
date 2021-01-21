@@ -21,6 +21,7 @@ function List() {
   const {
     resolvedData: posts,
     isLoading: postsLoading,
+    isPreviousData: nextPageLoading,
     error: postsError,
   } = useGetAllPosts({ page, limit: LIST_PAGE_SIZE });
 
@@ -54,10 +55,18 @@ function List() {
         </div>
       ))}
       <br />
-      <button type="button" onClick={prevPage} disabled={page === 1}>
+      <button
+        type="button"
+        onClick={prevPage}
+        disabled={nextPageLoading || page === 1}
+      >
         Prev
       </button>{' '}
-      <button type="button" onClick={nextPage} disabled={page === maxPage}>
+      <button
+        type="button"
+        onClick={nextPage}
+        disabled={nextPageLoading || page === maxPage}
+      >
         Next
       </button>
     </>
