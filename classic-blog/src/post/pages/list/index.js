@@ -27,29 +27,33 @@ function List() {
   };
 
   const fetchPostsCount = useCallback(async () => {
+    setPostsCountLoading(true);
+
     try {
       const data = await countPosts();
       setPostsCount(data);
     } catch (err) {
       setError(err);
-    } finally {
-      setPostsCountLoading(false);
     }
+
+    setPostsCountLoading(false);
   }, []);
 
   const fetchPosts = useCallback(async () => {
+    setPostsLoading(true);
+
     try {
       const data = await getAllPosts({ page, limit: LIST_PAGE_SIZE });
       setPosts(data);
     } catch (err) {
       setError(err);
-    } finally {
-      setPostsLoading(false);
     }
+
+    setPostsLoading(false);
   }, [page]);
 
   const fetchAndCountPosts = useCallback(async () => {
-      await Promise.all([fetchPosts(), fetchPostsCount()]);
+    await Promise.all([fetchPosts(), fetchPostsCount()]);
   }, [fetchPosts, fetchPostsCount]);
 
   useEffect(() => {
