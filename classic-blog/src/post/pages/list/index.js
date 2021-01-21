@@ -48,11 +48,13 @@ function List() {
     }
   }, [page]);
 
-  useEffect(() => {
-    (async function fetchAndCountPosts() {
+  const fetchAndCountPosts = useCallback(async () => {
       await Promise.all([fetchPosts(), fetchPostsCount()]);
-    })();
   }, [fetchPosts, fetchPostsCount]);
+
+  useEffect(() => {
+    fetchAndCountPosts();
+  }, [fetchAndCountPosts]);
 
   const postList = (
     <>
@@ -77,7 +79,7 @@ function List() {
   return (
     <Layout
       loading={postsLoading || postsCountLoading}
-      sidebar={<CreatePost onCreate={fetchPosts} />}
+      sidebar={<CreatePost onCreate={fetchAndCountPosts} />}
       error={error}
     >
       {posts?.length === 0 ? 'No posts found' : postList}
