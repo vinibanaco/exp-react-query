@@ -6,10 +6,11 @@ import { useCountPosts, useGetAllPosts } from '../../service';
 import Layout from '../../components/layout';
 import CreatePost from '../../components/create';
 
+const MIN_PAGE = 1;
 const LIST_PAGE_SIZE = 5;
 
 function List() {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(MIN_PAGE);
 
   const {
     data: postsCount,
@@ -23,17 +24,19 @@ function List() {
     error: postsError,
   } = useGetAllPosts({ page, limit: LIST_PAGE_SIZE });
 
-  const maxPage = Math.ceil(postsCount / LIST_PAGE_SIZE);
+  const maxPage = Math.max(Math.ceil(postsCount / LIST_PAGE_SIZE), MIN_PAGE);
 
-  // if the user is in the last page and any page ceases to exist,
-  // caused by the removal of some records, the page will be updated
-  // to the new highest one
-  if (page > maxPage) {
+  if (page < MIN_PAGE) {
+    setPage(MIN_PAGE);
+  } else if (page > maxPage) {
+    // if the user is in the last page and any page ceases to exist,
+    // caused by the removal of some records, the page will be updated
+    // to the new highest one
     setPage(maxPage);
   }
 
   const prevPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
+    setPage((currentPage) => Math.max(currentPage - 1, MIN_PAGE));
   };
 
   const nextPage = () => {
